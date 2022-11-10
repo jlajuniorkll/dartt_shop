@@ -1,7 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:dartt_shop/config/custom_colors.dart';
-import 'package:dartt_shop/src/auth/components/custom_text_field.dart';
-import 'package:dartt_shop/src/auth/sign_up_screen.dart';
+import 'package:dartt_shop/src/config/custom_colors.dart';
+import 'package:dartt_shop/src/pages/auth/components/custom_text_field.dart';
+import 'package:dartt_shop/src/pages/auth/sign_up_screen.dart';
+import 'package:dartt_shop/src/pages/base/base_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -78,7 +79,11 @@ class SignInScreen extends StatelessWidget {
                     SizedBox(
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: ((context) => const BaseScreen())));
+                        },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18))),
@@ -137,7 +142,7 @@ class SignInScreen extends StatelessWidget {
                             )),
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (c) => const SignupScreen()));
+                              builder: (c) => SignupScreen()));
                         },
                         child: const Text(
                           'Criar conta',

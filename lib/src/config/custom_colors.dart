@@ -18,3 +18,7 @@ abstract class CustomColors {
   static MaterialColor customSwatchColor =
       MaterialColor(0xFF8BC34A, _swatchOpacity);
 }
+
+const colorPrimaryClient = Colors.green;
+const colorSelectedClient = Colors.white;
+final colorUnSelectedClient = Colors.white.withAlpha(100);
