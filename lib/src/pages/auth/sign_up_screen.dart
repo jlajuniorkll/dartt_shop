@@ -1,5 +1,5 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
-import 'package:dartt_shop/src/pages/auth/components/custom_text_field.dart';
+import 'package:dartt_shop/src/pages/commons/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 

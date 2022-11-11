@@ -1,5 +1,8 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
+import 'package:dartt_shop/src/pages/cart/cart_tab.dart';
 import 'package:dartt_shop/src/pages/home/home_tab.dart';
+import 'package:dartt_shop/src/pages/orders/orders_tab.dart';
+import 'package:dartt_shop/src/pages/profile/profile_tab.dart';
 import 'package:flutter/material.dart';
 
 class BaseScreen extends StatefulWidget {
@@ -19,11 +22,11 @@ class _BaseScreenState extends State<BaseScreen> {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
-        children: [
-          const HomeTab(),
-          Container(color: Colors.yellow),
-          Container(color: Colors.blue),
-          Container(color: Colors.grey)
+        children: const [
+          HomeTab(),
+          CartTab(),
+          OrderTab(),
+          ProfileTab(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
