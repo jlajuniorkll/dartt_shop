@@ -1,6 +1,7 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
 import 'package:dartt_shop/src/models/cart_itemmodel.dart';
 import 'package:dartt_shop/src/pages/cart/components/cart_tile.dart';
+import 'package:dartt_shop/src/pages/commons/payment_dialog.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
 import 'package:dartt_shop/src/config/app_data.dart' as appdata;
@@ -18,6 +19,8 @@ class _CartTabState extends State<CartTab> {
   void removeItemFromCart(CartItemModel cartItem) {
     setState(() {
       appdata.cartItem.remove(cartItem);
+      utilsServices.showToast(
+          message: "${cartItem.item.itemName} removido(a) do carrinho");
     });
   }
 
@@ -90,7 +93,15 @@ class _CartTabState extends State<CartTab> {
                             borderRadius: BorderRadius.circular(18))),
                     onPressed: () async {
                       bool? result = await showOrderConfirmation();
-                      debugPrint(result.toString());
+                      if (result ?? false) {
+                        showDialog(
+                            context: context,
+                            builder: ((_) {
+                              return PaymentDialog(
+                                order: appdata.orders.first,
+                              );
+                            }));
+                      }
                     },
                     child: const Text(
                       "Concluir pedido",

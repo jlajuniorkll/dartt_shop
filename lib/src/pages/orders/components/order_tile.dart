@@ -1,6 +1,7 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
 import 'package:dartt_shop/src/models/cart_itemmodel.dart';
 import 'package:dartt_shop/src/models/order_model.dart';
+import 'package:dartt_shop/src/pages/commons/payment_dialog.dart';
 import 'package:dartt_shop/src/pages/orders/components/order_statuswidget.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class OrderTile extends StatelessWidget {
               )
             ],
           ),
+          expandedCrossAxisAlignment: CrossAxisAlignment.stretch,
           childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           children: [
             IntrinsicHeight(
@@ -62,6 +64,38 @@ class OrderTile extends StatelessWidget {
                       )),
                 ],
               ),
+            ),
+            Text.rich(TextSpan(
+                style: const TextStyle(
+                  fontSize: 20,
+                ),
+                children: [
+                  const TextSpan(
+                      text: "Total: ",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextSpan(
+                      text: utilsServices.priceToCurrency(order.doubleTotal))
+                ])),
+            Visibility(
+              visible: order.status == "pending_payment",
+              child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: ((_) {
+                          return PaymentDialog(
+                            order: order,
+                          );
+                        }));
+                  },
+                  icon: Image.asset(
+                    'assets/appimages/pix.png',
+                    height: 18,
+                  ),
+                  label: const Text("Ver QRCode Pix")),
             )
           ],
         ),

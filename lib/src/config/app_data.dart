@@ -104,7 +104,7 @@ List<OrderModel> orders = [
       ],
       status: 'pending_payment',
       copyAndPaste: 'copyAndPaste',
-      doubleTotal: 0.0),
+      doubleTotal: 20.0),
   OrderModel(
       id: '2',
       createdDateTime: DateTime.parse('2023-06-08 11:00:10.456'),
