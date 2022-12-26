@@ -1,10 +1,11 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
-import 'package:dartt_shop/src/models/cart_itemmodel.dart';
-import 'package:dartt_shop/src/pages/cart/components/cart_tile.dart';
+import 'package:dartt_shop/src/pages/cart/controller/cart_controller.dart';
+import 'package:dartt_shop/src/pages/cart/view/components/cart_tile.dart';
 import 'package:dartt_shop/src/pages/commons/payment_dialog.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
 import 'package:dartt_shop/src/config/app_data.dart' as appdata;
+import 'package:get/get.dart';
 
 class CartTab extends StatefulWidget {
   const CartTab({Key? key}) : super(key: key);
@@ -15,14 +16,6 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab> {
   final UtilsServices utilsServices = UtilsServices();
-
-  void removeItemFromCart(CartItemModel cartItem) {
-    setState(() {
-      appdata.cartItem.remove(cartItem);
-      utilsServices.showToast(
-          message: "${cartItem.item.itemName} removido(a) do carrinho");
-    });
-  }
 
   double cartTotalPrice() {
     double total = 0;
@@ -38,21 +31,14 @@ class _CartTabState extends State<CartTab> {
       appBar: AppBar(title: const Text("Carrinho")),
       body: Column(
         children: [
-          Expanded(
-              child: ListView.builder(
-            itemCount: appdata.cartItem.length,
-            itemBuilder: (_, index) {
-              return CartTile(
-                  cartItem: appdata.cartItem[index],
-                  updatedQuantity: (qtd) {
-                    if (qtd.quantity == 0) {
-                      removeItemFromCart(appdata.cartItem[index]);
-                    } else {
-                      setState(() {
-                        appdata.cartItem[index].quantity = qtd.quantity;
-                      });
-                    }
-                  });
+          Expanded(child: GetBuilder<CartController>(
+            builder: (controller) {
+              return ListView.builder(
+                itemCount: controller.cartItems.length,
+                itemBuilder: (_, index) {
+                  return CartTile(cartItem: controller.cartItems[index]);
+                },
+              );
             },
           )),
           const SizedBox(

@@ -1,7 +1,8 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
-import 'package:dartt_shop/src/pages/auth/sign_in_screen.dart';
+import 'package:dartt_shop/src/pages/auth/controller/auth_controller.dart';
 import 'package:dartt_shop/src/pages/commons/appname_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -14,11 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (c) {
-        return const SignInScreen();
-      }));
-    });
+    Get.find<AuthController>().validateToken();
   }
 
   @override

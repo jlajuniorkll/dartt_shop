@@ -62,7 +62,7 @@ class _ProductTileState extends State<ProductTile> {
                       child: Hero(
                           tag: widget.item.imgUrl,
                           child:
-                              Image.asset(widget.item.imgUrl, key: imageGk))),
+                              Image.network(widget.item.imgUrl, key: imageGk))),
                   Text(
                     widget.item.itemName,
                     style: const TextStyle(

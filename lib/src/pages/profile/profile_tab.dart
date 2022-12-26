@@ -1,7 +1,9 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
+import 'package:dartt_shop/src/pages/auth/controller/auth_controller.dart';
 import 'package:dartt_shop/src/pages/commons/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:dartt_shop/src/config/app_data.dart' as appdata;
+import 'package:get/get.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  final authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,9 @@ class _ProfileTabState extends State<ProfileTab> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {},
+            onPressed: () {
+              authController.signOut();
+            },
           )
         ],
       ),

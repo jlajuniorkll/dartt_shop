@@ -1,8 +1,14 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
-import 'package:dartt_shop/src/pages/splash/splash_screen.dart';
+import 'package:dartt_shop/src/page_routes/app_pages.dart';
+import 'package:dartt_shop/src/pages/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
+  // ter certeza que as funções nativas estão inciializadas
+  WidgetsFlutterBinding.ensureInitialized();
+  // injeção de dependência Getx
+  Get.put(AuthController());
   runApp(const MyApp());
 }
 
@@ -11,14 +17,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Greengrocer',
       theme: ThemeData(
         primarySwatch: colorPrimaryClient,
         scaffoldBackgroundColor: Colors.white.withAlpha(190),
       ),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      getPages: AppPages.pages,
+      initialRoute: PagesRoutes.splashRoute,
     );
   }
 }

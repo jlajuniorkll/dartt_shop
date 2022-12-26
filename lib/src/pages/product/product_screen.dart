@@ -1,8 +1,10 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
 import 'package:dartt_shop/src/models/item_model.dart';
+import 'package:dartt_shop/src/pages/base/controller/navigation_controller.dart';
 import 'package:dartt_shop/src/pages/commons/quantity_widget.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key, required this.item}) : super(key: key);
@@ -18,6 +20,8 @@ class _ProductScreenState extends State<ProductScreen> {
 
   int cartItemQuantity = 1;
 
+  final navigationController = Get.find<NavigationController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +33,7 @@ class _ProductScreenState extends State<ProductScreen> {
               Expanded(
                   child: Hero(
                       tag: widget.item.imgUrl,
-                      child: Image.asset(widget.item.imgUrl))),
+                      child: Image.network(widget.item.imgUrl))),
               Expanded(
                   child: Container(
                 padding: const EdgeInsets.all(32.0),
@@ -90,7 +94,11 @@ class _ProductScreenState extends State<ProductScreen> {
                               shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           )),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.back();
+                            navigationController
+                                .navigatePageView(NavigationTabs.cart);
+                          },
                           label: const Text(
                             "Adicionar ao carrinho",
                             style: TextStyle(

@@ -79,16 +79,16 @@ List<String> categories = [
 
 // Produtos do carrinho
 List<CartItemModel> cartItem = [
-  CartItemModel(item: apple, quantity: 2),
+  /*CartItemModel(item: apple, quantity: 2),
   CartItemModel(item: mango, quantity: 1),
-  CartItemModel(item: guava, quantity: 5),
+  CartItemModel(item: guava, quantity: 5),*/
 ];
 
 // Usuário
 UserModel user = UserModel(
     name: "Jorge Luiz Alves Júnior",
     email: "jlajuniorkll@gmail.com",
-    senha: "061229",
+    password: "061229",
     cpf: "013240840655",
     phone: "54981557745");
 
@@ -99,8 +99,8 @@ List<OrderModel> orders = [
       createdDateTime: DateTime.parse('2023-06-08 11:00:10.456'),
       overdueDateTime: DateTime.parse('2023-06-08 11:00:10.352'),
       items: [
-        CartItemModel(item: apple, quantity: 2),
-        CartItemModel(item: mango, quantity: 4)
+        /*CartItemModel(item: apple, quantity: 2),
+        CartItemModel(item: mango, quantity: 4)*/
       ],
       status: 'pending_payment',
       copyAndPaste: 'copyAndPaste',
@@ -109,7 +109,7 @@ List<OrderModel> orders = [
       id: '2',
       createdDateTime: DateTime.parse('2023-06-08 11:00:10.456'),
       overdueDateTime: DateTime.parse('2023-06-08 11:00:10.352'),
-      items: [CartItemModel(item: grape, quantity: 2)],
+      items: [/*CartItemModel(item: grape, quantity: 2)*/],
       status: 'shipping',
       copyAndPaste: 'copyAndPaste',
       doubleTotal: 0.0),
