@@ -2,6 +2,8 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:badges/badges.dart';
 import 'package:dartt_shop/src/config/custom_colors.dart';
+import 'package:dartt_shop/src/pages/base/controller/navigation_controller.dart';
+import 'package:dartt_shop/src/pages/cart/controller/cart_controller.dart';
 import 'package:dartt_shop/src/pages/commons/appname_widget.dart';
 import 'package:dartt_shop/src/pages/commons/custom_shimmer.dart';
 import 'package:dartt_shop/src/pages/home/controller/home_controller.dart';
@@ -20,6 +22,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   GlobalKey<CartIconKey> globalKeyCartItems = GlobalKey<CartIconKey>();
   final searchController = TextEditingController();
+  final navigationController = Get.find<NavigationController>();
 
   late Function(GlobalKey) runAddToCardAnimation;
   void itemSelectedCartAnimations(GlobalKey gkImage) {
@@ -37,13 +40,14 @@ class _HomeTabState extends State<HomeTab> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(top: 10.0, right: 20.0),
-            child: GestureDetector(
-              onTap: () {},
-              child: Badge(
+            child: GestureDetector(onTap: () {
+              navigationController.navigatePageView(NavigationTabs.cart);
+            }, child: GetBuilder<CartController>(builder: (controller) {
+              return Badge(
                   badgeColor: CustomColors.customContrastColor,
-                  badgeContent: const Text(
-                    "2",
-                    style: TextStyle(color: Colors.white, fontSize: 12.0),
+                  badgeContent: Text(
+                    controller.getCartTotalItems().toString(),
+                    style: const TextStyle(color: Colors.white, fontSize: 12.0),
                   ),
                   child: AddToCartIcon(
                     key: globalKeyCartItems,
@@ -51,8 +55,8 @@ class _HomeTabState extends State<HomeTab> {
                       Icons.shopping_cart,
                       color: CustomColors.customSwatchColor,
                     ),
-                  )),
-            ),
+                  ));
+            })),
           )
         ],
       ),

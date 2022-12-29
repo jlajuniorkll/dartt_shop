@@ -1,10 +1,8 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
 import 'package:dartt_shop/src/pages/cart/controller/cart_controller.dart';
 import 'package:dartt_shop/src/pages/cart/view/components/cart_tile.dart';
-import 'package:dartt_shop/src/pages/commons/payment_dialog.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
-import 'package:dartt_shop/src/config/app_data.dart' as appdata;
 import 'package:get/get.dart';
 
 class CartTab extends StatefulWidget {
@@ -16,14 +14,7 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab> {
   final UtilsServices utilsServices = UtilsServices();
-
-  double cartTotalPrice() {
-    double total = 0;
-    for (var item in appdata.cartItem) {
-      total += item.totalPrice();
-    }
-    return total;
-  }
+  final cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +24,16 @@ class _CartTabState extends State<CartTab> {
         children: [
           Expanded(child: GetBuilder<CartController>(
             builder: (controller) {
+              if (controller.cartItems.isEmpty) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.remove_shopping_cart,
+                        size: 40, color: CustomColors.customSwatchColor),
+                    const Text("Não há itens no carrinho")
+                  ],
+                );
+              }
               return ListView.builder(
                 itemCount: controller.cartItems.length,
                 itemBuilder: (_, index) {
@@ -63,37 +64,46 @@ class _CartTabState extends State<CartTab> {
                   "Total de Produtos",
                   style: TextStyle(fontSize: 12.0),
                 ),
-                Text(
-                  utilsServices.priceToCurrency(cartTotalPrice()),
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      color: CustomColors.customSwatchColor,
-                      fontWeight: FontWeight.bold),
+                GetBuilder<CartController>(
+                  builder: (controller) {
+                    return Text(
+                      utilsServices
+                          .priceToCurrency(controller.cartTotalPrice()),
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: CustomColors.customSwatchColor,
+                          fontWeight: FontWeight.bold),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: CustomColors.customSwatchColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18))),
-                    onPressed: () async {
-                      bool? result = await showOrderConfirmation();
-                      if (result ?? false) {
-                        showDialog(
-                            context: context,
-                            builder: ((_) {
-                              return PaymentDialog(
-                                order: appdata.orders.first,
-                              );
-                            }));
-                      }
-                    },
-                    child: const Text(
-                      "Concluir pedido",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
+                  child: GetBuilder<CartController>(builder: (controller) {
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: CustomColors.customSwatchColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18))),
+                      onPressed: (controller.isCheckoutLoading ||
+                              controller.cartItems.isEmpty)
+                          ? null
+                          : () async {
+                              bool? result = await showOrderConfirmation();
+                              if (result == true) {
+                                cartController.checkoutCart();
+                              } else {
+                                utilsServices.showToast(
+                                    message: 'Pedido não confirmado!');
+                              }
+                            },
+                      child: controller.isCheckoutLoading
+                          ? const CircularProgressIndicator()
+                          : const Text(
+                              "Concluir pedido",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                    );
+                  }),
                 )
               ],
             ),

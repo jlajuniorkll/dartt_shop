@@ -1,7 +1,7 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:dartt_shop/src/models/order_model.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class PaymentDialog extends StatelessWidget {
   PaymentDialog({Key? key, required this.order}) : super(key: key);
@@ -29,10 +29,10 @@ class PaymentDialog extends StatelessWidget {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                   ),
-                  QrImage(
-                    data: "1234567890",
-                    version: QrVersions.auto,
-                    size: 200.0,
+                  Image.memory(
+                    utilsServices.decodeQrCodeImage(order.qrCodeImage),
+                    height: 200,
+                    width: 200,
                   ),
                   Text(
                     'Vencimento ${utilsServices.formateDateTime(order.overdueDateTime)}',
@@ -48,7 +48,10 @@ class PaymentDialog extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                               side: const BorderSide(width: 2))),
-                      onPressed: () {},
+                      onPressed: () {
+                        FlutterClipboard.copy(order.copyAndPaste);
+                        utilsServices.showToast(message: 'Código pix copiado!');
+                      },
                       icon: const Icon(
                         Icons.copy,
                         size: 15,

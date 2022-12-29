@@ -1,8 +1,10 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
 import 'package:dartt_shop/src/models/item_model.dart';
-import 'package:dartt_shop/src/pages/product/product_screen.dart';
+import 'package:dartt_shop/src/page_routes/app_pages.dart';
+import 'package:dartt_shop/src/pages/cart/controller/cart_controller.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductTile extends StatefulWidget {
   const ProductTile(
@@ -18,6 +20,7 @@ class ProductTile extends StatefulWidget {
 
 class _ProductTileState extends State<ProductTile> {
   final UtilsServices utilsServices = UtilsServices();
+  final controller = Get.find<CartController>();
 
   IconData tileIcon = Icons.add_shopping_cart_outlined;
 
@@ -41,11 +44,7 @@ class _ProductTileState extends State<ProductTile> {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (c) {
-              return ProductScreen(
-                item: widget.item,
-              );
-            }));
+            Get.toNamed(PagesRoutes.productRoute, arguments: widget.item);
           },
           child: Card(
             elevation: 1,
@@ -101,6 +100,7 @@ class _ProductTileState extends State<ProductTile> {
               child: InkWell(
                 onTap: () {
                   switchIcon();
+                  controller.addItemToCart(item: widget.item);
                   widget.cartAnimationMethod(imageGk);
                 },
                 child: Ink(

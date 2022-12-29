@@ -4,9 +4,17 @@ import 'package:dartt_shop/src/models/item_model.dart';
 import 'package:dartt_shop/src/pages/home/result/home_result.dart';
 import 'package:dartt_shop/src/services/http_manager.dart';
 
-class HomeRepository {
-  final HttpManager _httpManager = HttpManager();
+abstract class HomeRepository {
+  Future<HomeResult<CategoryModel>> getAllCategories();
+  Future<HomeResult<ItemModel>> getAllProducts(Map<String, dynamic> body);
+}
 
+class HomeRepositoryImpl implements HomeRepository {
+  final HttpManager _httpManager;
+
+  HomeRepositoryImpl(this._httpManager);
+
+  @override
   Future<HomeResult<CategoryModel>> getAllCategories() async {
     final result = await _httpManager.restRequest(
         url: Endpoints.getAllCategories, method: HttpMethods.post);
@@ -23,6 +31,7 @@ class HomeRepository {
     }
   }
 
+  @override
   Future<HomeResult<ItemModel>> getAllProducts(
       Map<String, dynamic> body) async {
     final result = await _httpManager.restRequest(

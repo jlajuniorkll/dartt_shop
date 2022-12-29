@@ -1,15 +1,16 @@
 import 'package:dartt_shop/src/config/custom_colors.dart';
 import 'package:dartt_shop/src/models/item_model.dart';
 import 'package:dartt_shop/src/pages/base/controller/navigation_controller.dart';
+import 'package:dartt_shop/src/pages/cart/controller/cart_controller.dart';
 import 'package:dartt_shop/src/pages/commons/quantity_widget.dart';
 import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({Key? key, required this.item}) : super(key: key);
+  ProductScreen({Key? key}) : super(key: key);
 
-  final ItemModel item;
+  final ItemModel item = Get.arguments;
 
   @override
   State<ProductScreen> createState() => _ProductScreenState();
@@ -21,6 +22,7 @@ class _ProductScreenState extends State<ProductScreen> {
   int cartItemQuantity = 1;
 
   final navigationController = Get.find<NavigationController>();
+  final cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +98,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           )),
                           onPressed: () {
                             Get.back();
+                            cartController.addItemToCart(
+                                item: widget.item, quantity: cartItemQuantity);
                             navigationController
                                 .navigatePageView(NavigationTabs.cart);
                           },

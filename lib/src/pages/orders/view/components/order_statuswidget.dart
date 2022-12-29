@@ -24,7 +24,7 @@ class OrderStatusWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const StatusDot(isActive: true, title: "Confirmado"),
+        const StatusDot(isActive: true, title: "Aguardando Pagamento"),
         const CustomDivider(),
         if (currentStatus == 1) ...[
           const StatusDot(
@@ -39,9 +39,9 @@ class OrderStatusWidget extends StatelessWidget {
             backgroundColor: Colors.red,
           )
         ] else ...[
-          StatusDot(isActive: currentStatus >= 2, title: "Pagamento"),
+          StatusDot(isActive: currentStatus >= 2, title: "Pix Pago"),
           const CustomDivider(),
-          StatusDot(isActive: currentStatus >= 3, title: "Preaparando"),
+          StatusDot(isActive: currentStatus >= 3, title: "Preparando"),
           const CustomDivider(),
           StatusDot(isActive: currentStatus >= 4, title: "Envio"),
           const CustomDivider(),

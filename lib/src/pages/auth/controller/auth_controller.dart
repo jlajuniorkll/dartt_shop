@@ -7,7 +7,9 @@ import 'package:dartt_shop/src/services/utils_services.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
-  final AuthRepository authRepository = AuthRepository();
+  final AuthRepository authRepository;
+  AuthController(this.authRepository);
+
   final UtilsServices utilsServices = UtilsServices();
 
   RxBool isLoading = false.obs;
@@ -74,5 +76,27 @@ class AuthController extends GetxController {
 
   Future<void> resetPassword(String email) async {
     await authRepository.resetPassword(email);
+  }
+
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    isLoading.value = true;
+    final result = await authRepository.changePassword(
+        email: user.email!,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+        token: user.token!);
+    isLoading.value = false;
+
+    if (result) {
+      utilsServices.showToast(
+          message: 'Senha atualizada! Entre com a nova senha!');
+      signOut();
+    } else {
+      utilsServices.showToast(
+          message: 'A senha atual está incorreta', isError: true);
+    }
   }
 }

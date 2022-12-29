@@ -8,7 +8,9 @@ import 'package:get/get.dart';
 const int itemsPerPage = 6;
 
 class HomeController extends GetxController {
-  final homeRepository = HomeRepository();
+  final HomeRepository homeRepository;
+  HomeController(this.homeRepository);
+
   final utilservices = UtilsServices();
 
   List<CategoryModel> allCategories = [];

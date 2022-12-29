@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +20,7 @@ class UtilsServices {
   String formateDateTime(DateTime dateTime) {
     initializeDateFormatting();
     DateFormat dateFormat = DateFormat.yMd('pt_BR').add_Hm();
-    return dateFormat.format(dateTime);
+    return dateFormat.format(dateTime.toLocal());
   }
 
 // Exibe um toast customizado
@@ -49,5 +52,10 @@ class UtilsServices {
 // Remove os dados localmente em segurança
   Future<void> removeLocalData({required String key}) async {
     await storage.delete(key: key);
+  }
+
+  Uint8List decodeQrCodeImage(String value) {
+    String base64String = value.split(',').last;
+    return base64.decode(base64String);
   }
 }
